@@ -17,6 +17,8 @@ public class LoginPage extends PageObject {
                 .located(By.id("forgotPasswordLink"));
         public static final Target CREDENTIALS_MESSAGE = Target.the("Login message")
                 .located(By.id("spanMessage"));
+        public static final Target WELCOME_MESSAGE = Target.the("Welcome message")
+                .located(By.id("welcome"));
 
 
 

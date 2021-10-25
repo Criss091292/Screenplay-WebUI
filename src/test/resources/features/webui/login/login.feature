@@ -1,15 +1,30 @@
 Feature: Hacer Login
   Como usuario de la aplicacion
   Necesito poder autenticarme mediante login en el aplicativo
-  para poder acceder a la plataforma.
+  para poder acceder a la plataforma y realizar mis actividades.
 
-Background:
-  Given el usuario esta en la pagina de login sin haberse autenticado
+  Background:
+    Given ingreso directamente a la url correspondiente a la ruta admin -user management - users del aplicativo sin haberme autenticado
 
-  Scenario: Login con datos correctos
-    When diligencia los datos correctos
-    Then deberia visualizar la pagina de usuarios del sistema
 
-  Scenario: login con datos incorrectos
-    When el usuario realiza la peticion
+
+  Scenario: Inicio de sesion donde el password es invalido.
+    When Escribo usuario correcto y contrasena incorrecta y pulso el boton submit.
     Then deberia visualizar un mensaje de credenciales invalidas
+
+  Scenario: Inicio de sesion donde el usuario es invalido.
+    When  Escribo usuario incorrecto y contrasena correcta y pulso el boton submit
+    Then  deberia visualizar un mensaje de credenciales invalidas
+
+  Scenario: Inicio de sesion exitoso.
+    When Escribo usuario y contrasena correctos y pulso el boton submit
+    Then el sistema debera mostrar la pagina de usuarios.
+
+  Scenario: Inicio de sesion con usuario en blanco y password cualquiera.
+    When dejo el usuario en blanco, escribo cualquier password y pulso submit
+    Then el sistema debera mostrar mensaje de error indicando que el usuario no debe ser vacio
+
+  Scenario: Inicio de sesion con usuario cualquiera y password en blanco.
+    When dejo el password en blanco, escribo cualquier usuario y pulso submit
+    Then el sistema debera mostrar mensaje de error indicando que el password no debe ser vacio
+

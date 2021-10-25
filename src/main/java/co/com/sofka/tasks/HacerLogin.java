@@ -13,7 +13,7 @@ import java.util.List;
 
 
     public class HacerLogin  implements Task {
-        private LoginPageModel datos;
+        private static LoginPageModel datos;
 
         public HacerLogin() {
         }
@@ -22,7 +22,9 @@ import java.util.List;
             return this;
         }
 
-        public static HacerLogin conLosDatos(LoginPageModel datos) {
+        public static HacerLogin conLosDatos(LoginPageModel dato) {
+            datos = dato;
+            System.out.println(datos.getUsername() + "  " + datos.getPassword());
             return Tasks.instrumented(HacerLogin.class);
         }
 
@@ -31,13 +33,14 @@ import java.util.List;
 
 
             try {
-                Thread.sleep(60000);
+                Thread.sleep(6000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
             actor.attemptsTo(
                     WaitUntil.the(LoginPage.BTN_LOGIN, WebElementStateMatchers.isVisible()),
+
                     Enter.theValue(datos.getUsername()).into(LoginPage.TEXT_USERNAME),
                     Enter.theValue(datos.getPassword()).into(LoginPage.TEXT_PASSWORD),
                     Click.on(LoginPage.BTN_LOGIN)
