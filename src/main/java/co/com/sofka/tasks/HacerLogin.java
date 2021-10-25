@@ -9,8 +9,6 @@ import net.serenitybdd.screenplay.actions.Enter;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 
-import java.util.List;
-
 
     public class HacerLogin  implements Task {
         private static LoginPageModel datos;
@@ -32,11 +30,11 @@ import java.util.List;
         public <T extends Actor> void performAs(T actor) {
 
 
-            try {
+            /*try {
                 Thread.sleep(6000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             actor.attemptsTo(
                     WaitUntil.the(LoginPage.BTN_LOGIN, WebElementStateMatchers.isVisible()),

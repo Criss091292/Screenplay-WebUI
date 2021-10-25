@@ -1,7 +1,8 @@
 package co.com.sofka.stepdefnitions.webui.login;
 
 import co.com.sofka.models.LoginPageModel;
-import co.com.sofka.questions.LoginResult;
+import co.com.sofka.questions.CredentialsMessage;
+import co.com.sofka.questions.WelcomeMessage;
 import co.com.sofka.tasks.Abrir;
 import co.com.sofka.tasks.HacerLogin;
 import io.cucumber.java.Before;
@@ -12,6 +13,7 @@ import net.serenitybdd.screenplay.actors.OnlineCast;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 public class LoginWithCucumberStepDefinition {
@@ -21,29 +23,34 @@ public class LoginWithCucumberStepDefinition {
     LoginPageModel datosCorrectos;
     LoginPageModel usuarioVacioYPasswordCualquiera;
     LoginPageModel usuarioCualquieraYPasswordVacio;
-
+    private static String USUARIO_CORRECTO = "Admin";
+    private static String USUARIO_INCORRECTO = "asdasd";
+    private static String USUARIO_VACIO = "";
+    private static String PASSWORD_CORRECTO = "admin123";
+    private static String PASSWORD_INCORRECTO = "2132132";
+    private static String PASSWORD_VACIO ="";
     @Before
     public void configuracionInicial(){
         setTheStage(new OnlineCast());
         usuarioCorrectoPasswordIncorrecto = new LoginPageModel();
-        usuarioCorrectoPasswordIncorrecto.setUsername("Admin");
-        usuarioCorrectoPasswordIncorrecto.setPassword("adssads");
+        usuarioCorrectoPasswordIncorrecto.setUsername(USUARIO_CORRECTO);
+        usuarioCorrectoPasswordIncorrecto.setPassword(PASSWORD_INCORRECTO);
 
         usuarioIncorrectoPasswordCorrecto = new LoginPageModel();
-        usuarioIncorrectoPasswordCorrecto.setUsername("dsada5");
-        usuarioIncorrectoPasswordCorrecto.setPassword("admin123");
+        usuarioIncorrectoPasswordCorrecto.setUsername(USUARIO_INCORRECTO);
+        usuarioIncorrectoPasswordCorrecto.setPassword(PASSWORD_CORRECTO);
 
         datosCorrectos = new LoginPageModel();
-        datosCorrectos.setUsername("Admin");
-        datosCorrectos.setPassword("admin123");
+        datosCorrectos.setUsername(USUARIO_CORRECTO);
+        datosCorrectos.setPassword(PASSWORD_CORRECTO);
 
         usuarioVacioYPasswordCualquiera = new LoginPageModel();
-        usuarioVacioYPasswordCualquiera.setUsername("");
-        usuarioVacioYPasswordCualquiera.setPassword("admin123");
+        usuarioVacioYPasswordCualquiera.setUsername(USUARIO_VACIO);
+        usuarioVacioYPasswordCualquiera.setPassword(PASSWORD_INCORRECTO);
 
         usuarioCualquieraYPasswordVacio = new LoginPageModel();
-        usuarioCualquieraYPasswordVacio.setUsername("Admin");
-        usuarioCualquieraYPasswordVacio.setPassword("");
+        usuarioCualquieraYPasswordVacio.setUsername(USUARIO_INCORRECTO);
+        usuarioCualquieraYPasswordVacio.setPassword(PASSWORD_VACIO);
     }
 
     @Given("ingreso directamente a la url correspondiente a la ruta admin -user management - users del aplicativo sin haberme autenticado")
@@ -58,7 +65,7 @@ public class LoginWithCucumberStepDefinition {
     }
     @Then("deberia visualizar un mensaje de credenciales invalidas")
     public void deberiaVisualizarUnMensajeDeCredencialesInvalidas() {
-        theActorInTheSpotlight().should(seeThat(LoginResult.message(), equalTo("Invalid credentials")));
+        theActorInTheSpotlight().should(seeThat(CredentialsMessage.message(), equalTo("Invalid credentials")));
     }
 
     @When("Escribo usuario incorrecto y contrasena correcta y pulso el boton submit")
@@ -73,7 +80,7 @@ public class LoginWithCucumberStepDefinition {
 
     @Then("el sistema debera mostrar la pagina de usuarios.")
     public void elSistemaDeberaMostrarLaPaginaDeUsuarios() {
-        theActorInTheSpotlight().should(seeThat(LoginResult.message(), equalTo("Welcome Tony")));
+        theActorInTheSpotlight().should(seeThat(WelcomeMessage.message(), containsString("Welcome")));
 
     }
 
@@ -84,7 +91,7 @@ public class LoginWithCucumberStepDefinition {
 
     @Then("el sistema debera mostrar mensaje de error indicando que el usuario no debe ser vacio")
     public void elSistemaDeberaMostrarMensajeDeErrorIndicandoQueElUsuarioNoDebeSerVacio() {
-        theActorInTheSpotlight().should(seeThat(LoginResult.message(), equalTo("Username cannot be empty")));
+        theActorInTheSpotlight().should(seeThat(CredentialsMessage.message(), equalTo("Username cannot be empty")));
 
     }
 
@@ -95,7 +102,7 @@ public class LoginWithCucumberStepDefinition {
 
     @Then("el sistema debera mostrar mensaje de error indicando que el password no debe ser vacio")
     public void elSistemaDeberaMostrarMensajeDeErrorIndicandoQueElPasswordNoDebeSerVacio() {
-        theActorInTheSpotlight().should(seeThat(LoginResult.message(), equalTo("Password cannot be empty")));
+        theActorInTheSpotlight().should(seeThat(CredentialsMessage.message(), equalTo("Password cannot be empty")));
     }
 
 }
